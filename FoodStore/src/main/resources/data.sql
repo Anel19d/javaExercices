@@ -45,6 +45,7 @@ CREATE TABLE "order_tbl" (
     id long primary key AUTO_INCREMENT,
     order_date date NOT NULL,
     total_amount double
+
 );
 
 insert into "order_tbl" (order_date,total_amount)

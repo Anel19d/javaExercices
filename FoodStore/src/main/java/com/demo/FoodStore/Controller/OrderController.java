@@ -7,6 +7,7 @@ import com.demo.FoodStore.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +20,11 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping
+    @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OrderDto>> getCategory(@RequestParam(name = "search", required = false) String search){
         try {
             List<OrderDto> orderResponse = orderService.getAll(search);
-            return new ResponseEntity(orderResponse, HttpStatus.FOUND);
+            return new ResponseEntity<List<OrderDto>>(orderResponse, HttpStatus.FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR );

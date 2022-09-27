@@ -44,7 +44,9 @@ public class OrderServiceImpl implements OrderService {
     public Order save(OrderDto dto) {
 
         Order order = new Order(dto);
-        order.setTotalAmount(getTotalAmount(dto.getProducts()));
+        Set<Product> productSet = dto.getProducts().stream()
+                .map(Product::new).collect(Collectors.toSet());
+        order.setTotalAmount(getTotalAmount(productSet));
         return orderRepository.save(order);
     }
 

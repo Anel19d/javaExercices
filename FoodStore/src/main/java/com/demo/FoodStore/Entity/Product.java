@@ -1,6 +1,9 @@
 package com.demo.FoodStore.Entity;
 
 import com.demo.FoodStore.dto.ProductDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +11,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -33,8 +37,8 @@ public class Product implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    @ManyToMany(mappedBy = "products")
-    private Set<Order> order;
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "products")
+    private Set<Order> orders = new HashSet<>();
 
 
     public Product(ProductDTO dto) {

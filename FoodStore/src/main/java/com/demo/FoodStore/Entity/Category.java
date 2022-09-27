@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name ="category")
@@ -24,8 +26,8 @@ public class Category implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> product;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private Set<Product> products = new HashSet<>();
     public Category(CategoryDTO categoryDTO) {
         this.id = categoryDTO.getId();
         this.name = categoryDTO.getName();

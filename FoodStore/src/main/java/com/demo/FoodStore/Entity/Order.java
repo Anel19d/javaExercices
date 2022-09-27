@@ -1,14 +1,15 @@
 package com.demo.FoodStore.Entity;
 
 import com.demo.FoodStore.dto.OrderDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="order_tbl")
@@ -26,13 +27,12 @@ public class Order implements Serializable {
     @Column(name = "total_amount")
     private Double totalAmount;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "order_product",
-            joinColumns = { @JoinColumn(name = "product_id") },
-            inverseJoinColumns = { @JoinColumn(name = "order_id") }
-    )
-    private Set<Product> products;
+
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="order_product", joinColumns={@JoinColumn(name="product_id")},
+            inverseJoinColumns={@JoinColumn(name="order_id")})
+    private Set<Product> products=new HashSet();
 
     public Order(OrderDto dto) {
         this.date = dto.getDate();
